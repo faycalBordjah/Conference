@@ -55,5 +55,8 @@
             "allow-contrib": false,
             "require": "4.3.*"
         }
+    },
+    "require-dev": {
+        "phpstan/phpstan-symfony": "^0.11.6"
     }
 }

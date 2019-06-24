@@ -1,0 +1,34 @@
+version: '3.6'
+
+services:
+  nginx:
+    image: easybar/nginx:dev
+    depends_on:
+      - app
+    environment:
+      - DOCROOT=/srv/public
+    volumes:
+      - .:/srv
+    ports:
+      - 8082:80
+
+  app:
+    image: easybar/php:7.2.9-dev
+    depends_on:
+      - db
+      - mailhog
+    volumes:
+      - .:/srv
+
+  db:
+    image: mariadb:10.4.4-bionic
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - db-data:/var/lib/mysql
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+volumes:
+  db-data: {}

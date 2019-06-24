@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: easybar/php:7.2.9-dev
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install vendor
+          command: composer install
+
+      - run:
+          name: Code Style
+          command: vendor/bin/phpcs src
+                   vendor/bin/phpstan analyse --level 6 src

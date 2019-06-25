@@ -36,6 +36,11 @@ class Conference
      */
     private $rate;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +96,18 @@ class Conference
         if ($newConference !== $rate->getConference()) {
             $rate->setConference($newConference);
         }
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
 
         return $this;
     }

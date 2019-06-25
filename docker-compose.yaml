@@ -26,6 +26,13 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
       - db-data:/var/lib/mysql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 28080:8080
+    depends_on:
+      - db
   mailhog:
     image: mailhog/mailhog
     ports:

@@ -1,0 +1,24 @@
+App\Entity\Conference:
+  conference-{1..50}:
+    __construct: false
+    title: 'my title of the conference : <numberBetween(1,50)>'
+    content: 'This is my conference : ==== <numberBetween(1, 1000)> ========== '
+    creationDate: "<dateTimeBetween('1 year ago', 'now')>"
+    date: "<dateTimeBetween('1 year ago', 'now')>"
+    rate: '@rate-<current()>'
+
+App\Entity\User:
+  user-{1..50}:
+    __construct: false
+    firstName: 'name()'
+    lastName: 'name()'
+    mail: '<email()>'
+    password: 'pssord'
+    rate: '@rate-<current()>'
+
+App\Entity\Rate:
+  rate-{1..50}:
+    __construct: false
+    conference: '@conference-<current()>'
+    user: '@user-<current()>'
+    value: '<numberBetween(1,5)>'

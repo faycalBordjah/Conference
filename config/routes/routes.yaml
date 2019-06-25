@@ -1,0 +1,5 @@
+index:
+    path: /
+    controller: App\Controller\ConferenceController::find
+    defaults:
+        id: 1

@@ -26,6 +26,11 @@ class Rate
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $value;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +56,18 @@ class Rate
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    public function setValue(int $value): self
+    {
+        $this->value = $value;
 
         return $this;
     }

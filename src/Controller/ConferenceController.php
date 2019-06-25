@@ -42,9 +42,12 @@ class ConferenceController extends AbstractController
     {
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
-        $conference = $repository->createQueryBuilder('a')
+        $conferences = $repository->createQueryBuilder('a')
             ->orderBy('a.creationDate', 'DESC')
             ->getQuery();
-        $conference = $paginator->paginate($conference, $request->query->getInt('page', 1), 10);
+        $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 10);
+        return $this->render('Conference/conference.html.twig', [
+            'conferences' => $conferences
+        ]);
     }
 }

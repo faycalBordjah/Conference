@@ -228,6 +228,9 @@
             "phpcs.xml.dist"
         ]
     },
+    "symfony/asset": {
+        "version": "v4.3.1"
+    },
     "symfony/cache": {
         "version": "v4.3.1"
     },

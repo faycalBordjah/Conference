@@ -30,7 +30,7 @@ class ConferenceController extends AbstractController
     {
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
-        //$article = $repository->find($id);
+        $article = $repository->find($id);
         return new Response("Test");
     }
 

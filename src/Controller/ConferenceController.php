@@ -38,13 +38,13 @@ class ConferenceController extends AbstractController
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(Request $request,PaginatorInterface $paginator) :Response{
+    public function index(Request $request, PaginatorInterface $paginator) :Response
+    {
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
         $conference = $repository->createQueryBuilder('a')
             ->orderBy('a.creationDate', 'DESC')
             ->getQuery();
         $conference = $paginator->paginate($conference, $request->query->getInt('page', 1), 10);
-
     }
 }

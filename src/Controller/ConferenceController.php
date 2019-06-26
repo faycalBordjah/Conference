@@ -64,7 +64,7 @@ class ConferenceController extends AbstractController
     }
 
     /**
-     * @Route(path="/admin/create")
+     * @Route(path="/admin/create",name="create")
      */
     public function create(){
         /*

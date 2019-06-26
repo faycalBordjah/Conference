@@ -45,9 +45,14 @@ class User implements UserInterface
     private $rate;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @var string The plain passord to be encoded)
+     */
+    private $plain;
 
     public function getId(): ?int
     {
@@ -160,4 +165,17 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getPlain(): ?string
+    {
+        return $this->plain;
+    }
+
+    public function setPlain(string $plain): self
+    {
+        $this->plain = $plain;
+
+        return $this;
+    }
+
 }

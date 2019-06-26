@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container dark-modal">
+        {% if isOk %}
+            <div class="alert alert-dismissible alert-success">
+                <h2>L'utilisateur c'est bien enregistrer</h2>
+            </div>
+        {%  endif %}
+        <br>
+        <h2 style="text-align: center">Signup in Conference</h2>
+        <div class="px-4 py-3">
+            {{ form_start(userInscriptionForm) }}
+            {{ form_row(userInscriptionForm.mail, {
+                'label': "FirstName",
+                'attr': {
+                    class: "form-control"
+                }
+            }) }}
+            {{ form_row(userInscriptionForm.lastName, {
+                'label': "LastName",
+                'attr': {
+                    class: "form-control"
+                }
+            }) }}
+            {{ form_row(userInscriptionForm.firstName, {
+                'label': "Email",
+                'attr': {
+                    class: "form-control"
+                }
+            }) }}
+            {{ form_row(userInscriptionForm.plain, {
+                'label': "Password",
+                'attr': {
+                    class: "form-control"
+                }
+            }) }}
+            {{ form_rest(userInscriptionForm) }}
+            <br>
+            <hr>
+            <div class="row justify-content-md-center">
+                <button type="submit" class="btn btn-lg btn-primary">Creer l'utilisateur</button>
+                {{ form_end(userInscriptionForm) }}
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

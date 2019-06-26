@@ -41,7 +41,12 @@ class ConferenceController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator) :Response
     {
-        $isAdmin = in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ? true : false;
+
+        $isAdmin=false;
+        if ($this->getUser()){
+            $isAdmin = in_array('ROLE_ADMIN', $this->getUser()->getRoles(),true) ? true : false;
+        }
+        var_dump($isAdmin);
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
         if (!$isAdmin){
@@ -53,7 +58,7 @@ class ConferenceController extends AbstractController
         }else{
             $conferences = $repository->queryForAdmin();
             $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 10);
-            return $this->render('Conference/conference.html.twig', [
+            return $this->render('Conference/admin.html.twig', [
                 'conferences' => $conferences
             ]);
         }

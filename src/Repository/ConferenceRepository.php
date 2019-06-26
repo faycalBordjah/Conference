@@ -39,7 +39,7 @@ class ConferenceRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->orderBy('a.creationDate', 'DESC')
-            ->andWhere('a.publish_date <= :val')
+            ->andWhere('a.creationDate <= :val')
             ->setParameter('val', new \DateTime('now'))
             ->getQuery();
     }

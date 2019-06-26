@@ -46,7 +46,6 @@ class ConferenceController extends AbstractController
         if ($this->getUser()){
             $isAdmin = in_array('ROLE_ADMIN', $this->getUser()->getRoles(),true) ? true : false;
         }
-        var_dump($isAdmin);
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
         if (!$isAdmin){
@@ -62,6 +61,53 @@ class ConferenceController extends AbstractController
                 'conferences' => $conferences
             ]);
         }
+    }
+
+    /**
+     * @Route(path="/admin/create")
+     */
+    public function create(){
+        /*
+         *     public function addArticle(Request $request): Response
+    {
+        $isOk = false;
+        $newArticleForm = $this->createForm(ArticleType::class);
+        $newArticleForm->handleRequest($request);
+        if ($newArticleForm->isSubmitted() && $newArticleForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($newArticleForm->getData());
+            $em->flush();
+            $isOk = true;
+        }
+        return $this->render('Article/add.html.twig', [
+            'isOk' => $isOk,
+            'articleForm' => $newArticleForm->createView(),
+            ]);
+    }
+         *
+         * */
+
+
+
+
+        return new Response("TEst");
+    }
+
+    /**
+     * @Route(path="/admin/update")
+     */
+    public function update(){
+
+
+        return new Response("TEst");
+    }
+
+    /**
+     * @Route(path="/admin/delete")
+     */
+    public function delete(){
+
+        return new Response("TEst");
     }
 
 }

@@ -6,8 +6,7 @@
 
     <div class="container">
         <div style="text-align:center; margin-top:1.25rem;">
-            <h1>I AM ADMINNNNNNNN</h1>
-            <hr>
+            <h1>Welcome to Admin</h1>
             <br>
             <h2>list conferences</h2>
         </div>
@@ -17,20 +16,22 @@
             <thead>
             <tr class="table-primary">
                 <th scope="row">Title</th>
-                <th>Date de publication</th>
-                <th>Détails</th>
+                <th>publication Date</th>
+                <th>Content</th>
+                <th>Note</th>
             </tr>
             </thead>
             <tbody>
             {% for conference in conferences%}
                 <tr>
                     <td>{{ conference.title }}</td>
+                    <td>{{ conference.content }}</td>
                     <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
                     <td><a href="/get/{{conference.id}}">Note</a></td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">No articles</td>
+                    <td colspan="5">No conferences</td>
                 </tr>
             {% endfor %}
 

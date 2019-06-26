@@ -45,7 +45,7 @@ class User implements UserInterface
     private $rate;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="array")
      */
     private $roles = [];
 
@@ -155,8 +155,9 @@ class User implements UserInterface
      */
     public function getRoles() :array
     {
-        $roles[] = ['USER_ROLE'];
-        return $roles;
+
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
     }
 
     public function setRoles(array $roles): self

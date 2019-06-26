@@ -17,13 +17,14 @@ use Symfony\Component\HttpFoundation\Response;
 class UserController extends AbstractController
 {
     /**
-     * @Route(path="/findAll")
+     * @Route(path="/findAll",name="users")
      * @return Response
      */
     public function findAll(){
         /**@var \App\Repository\UserRepository $repository*/
         $repository = $this->getDoctrine()->getRepository(User::class);
         $users = $repository->findAll();
+        var_dump($users);
         return new Response("users");
     }
     /**

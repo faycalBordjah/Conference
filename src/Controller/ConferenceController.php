@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class ConferenceController
  * @package App\Controller
- * @Route(path="/",name="conference")
+ * @Route(path="/")
  */
 class ConferenceController extends AbstractController
 {
@@ -37,17 +37,26 @@ class ConferenceController extends AbstractController
     /**
      * @param PaginatorInterface $paginator
      * @return Response
+     * @Route(path="/",name="conference_index")
      */
     public function index(Request $request, PaginatorInterface $paginator) :Response
     {
+        $isAdmin = in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ? true : false;
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
-        $conferences = $repository->createQueryBuilder('a')
-            ->orderBy('a.creationDate', 'DESC')
-            ->getQuery();
-        $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 10);
-        return $this->render('Conference/conference.html.twig', [
-            'conferences' => $conferences
-        ]);
+        if (!$isAdmin){
+            $conferences = $repository->queryForUser();
+            $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 5);
+            return $this->render('Conference/conference.html.twig', [
+                'conferences' => $conferences
+            ]);
+        }else{
+            $conferences = $repository->queryForAdmin();
+            $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 10);
+            return $this->render('Conference/conference.html.twig', [
+                'conferences' => $conferences
+            ]);
+        }
     }
+
 }

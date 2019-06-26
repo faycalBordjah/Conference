@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"mail"},message="Already exists")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -40,6 +43,11 @@ class User
      * @ORM\OneToOne(targetEntity="App\Entity\Rate", mappedBy="user", cascade={"persist", "remove"})
      */
     private $rate;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles = [];
 
     public function getId(): ?int
     {
@@ -108,6 +116,47 @@ class User
         if ($newUser !== $rate->getUser()) {
             $rate->setUser($newUser);
         }
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles() :array
+    {
+        $roles[] = ['USER_ROLE'];
+        return $roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }

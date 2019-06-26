@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conference{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div style="text-align:center; margin-top:1.25rem;">
+            <h1>Conference!</h1>
+            <hr>
+            <br>
+            <h2>list conferences</h2>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
+            <tr class="table-primary">
+                <th scope="row">Title</th>
+                <th>Date de publication</th>
+                <th>Détails</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for conference in conferences%}
+                <tr>
+                    <td>{{ conference.title }}</td>
+                    <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td><a href="/get/{{conference.id}}">Note</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No articles</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <div class="row justify-content-md-center">
+            <ul class="pagination">
+                {% for i in 1..6 %}
+                    <li class="page-item active">
+                        <a class="page-link" href="{{ path('index', {page: i}) }}">{{ i }}</a>
+                    </li>&nbsp;
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -54,6 +54,11 @@ class User implements UserInterface
      */
     private $plain;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -173,6 +178,18 @@ class User implements UserInterface
     public function setPlain(string $plain): self
     {
         $this->plain = $plain;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
 
         return $this;
     }

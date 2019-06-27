@@ -15,14 +15,16 @@
             <thead>
             <tr class="table-primary">
                 <th scope="row">name</th>
-                <th>Détails</th>
+                <th scope="row">mail</th>
+                <th scope="row">Détails</th>
             </tr>
             </thead>
             <tbody>
             {% for user in users%}
                 <tr>
                     <td>{{ user.firstName }}</td>
-                    <td><a href="{{ path("users") }}">Note</a></td>
+                    <td>{{ user.mail }}</td>
+                    <td><a href="{{ path("user",{id:user.id}) }}">manage user</a></td>
                 </tr>
             {% else %}
                 <tr>

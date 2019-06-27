@@ -12,11 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class UserController
  * @package App\Controller
+ * @Route(path="/admin/users")
  */
 class UserController extends AbstractController
 {
     /**
-     * @Route(path="/admin/findAll",name="users")
+     * @Route(path="/findAll",name="users")
      * @return Response
      */
     public function findAll(){
@@ -29,14 +30,15 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route(path="/find/{id}")
+     * @Route(path="/find/{id}",name="user")
      * @return Response
      */
-    public function find(int $id) :Response{
+    public function find(User $user) :Response{
         /**@var \App\Repository\UserRepository $repository*/
         $repository = $this->getDoctrine()->getRepository(User::class);
-        $users = $repository->find($id);
-        var_dump($users);
-        return new Response("user");
+        $user = $repository->find($user->getId());
+     return $this->render('User/user.html.twig',[
+            'user'=> $user
+        ]);
     }
 }

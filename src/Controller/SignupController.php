@@ -25,6 +25,7 @@ class SignupController extends AbstractController
     public function signUp(Request $request,UserPasswordEncoderInterface $encoder): Response
     {
         $isOk=false;
+        /** @var User $user */
         $user = new User();
         $newUserForm = $this->createForm(SignupType::class,$user);
         $newUserForm->handleRequest($request);
@@ -38,6 +39,7 @@ class SignupController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $user = $newUserForm->getData();
             $user->setRoles(['ROLE_USER']);
+            $user->setCreationDate(new \DateTime());
             $em->persist($newUserForm->getData());
             $em->flush();
             $isOk=true;

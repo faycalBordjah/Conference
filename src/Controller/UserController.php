@@ -5,9 +5,11 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class UserController
@@ -40,5 +42,28 @@ class UserController extends AbstractController
      return $this->render('User/user.html.twig',[
             'user'=> $user
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route(path="/delete/{id}",name="user_delete")
+     */
+    public function delete(Request$request,User $user):Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository(User::class)->find($user->getId());
+        $roles = $user->getRoles();
+        if (in_array('ROLE_ADMIN',$roles)){
+            throw new AccessDeniedException('Can not delete the administrator');
+        }
+
+        if(!$entity)
+        {
+            throw $this->createNotFoundException('User not found');
+        }
+            $em->remove($user);
+            $em->flush();
+        return $this->redirectToRoute('users');
     }
 }

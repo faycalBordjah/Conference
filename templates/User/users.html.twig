@@ -6,27 +6,23 @@
 
     <div class="container">
         <div style="text-align:center; margin-top:1.25rem;">
-            <h1>Conference!</h1>
+            <h1>Conference Users</h1>
             <hr>
-            <br>
-            <h2>list conferences</h2>
         </div>
     </div>
     <div class="container-fluid">
         <table class="table">
             <thead>
             <tr class="table-primary">
-                <th scope="row">Title</th>
-                <th>Date de publication</th>
+                <th scope="row">name</th>
                 <th>Détails</th>
             </tr>
             </thead>
             <tbody>
-            {% for conference in conferences%}
+            {% for user in users%}
                 <tr>
-                    <td>{{ conference.title }}</td>
-                    <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td><a href="/get/{{conference.id}}">Note</a></td>
+                    <td>{{ user.firstName }}</td>
+                    <td><a href="{{ path("users") }}">Note</a></td>
                 </tr>
             {% else %}
                 <tr>

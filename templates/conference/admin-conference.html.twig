@@ -51,11 +51,11 @@
         <div class="card mb-3">
             <h3 class="card-header">Conference {{ conference.id }}</h3>
             <div class="card-body">
-                <h5 class="card-title">{{ conference.title }}</h5>
+                <h3 class="card-title">{{ conference.title }}</h3>
                 <h6 class="card-subtitle text-muted">Authored by:</h6>
             </div>
             <img style="height: 200px; width: 100%; display: block;"
-                 src="{{ absolute_url('/home/fbordjah/ipssi/Conference/public/images/bug.png') }}" alt="Card image">
+                 src="{{ asset('images/bug.png') }}" alt="Card image">
             <div class="card-body">
                 <p class="card-text">{{ conference.content }}</p>
             </div>

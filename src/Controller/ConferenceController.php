@@ -93,7 +93,7 @@ class ConferenceController extends AbstractController
     /**
      * @Route(path="/admin/delete/{id}",name="delete_conference")
      */
-    public function delete(Request $request, Conference $confrence){
+    public function delete(Request $request, Conference $confrence) :Response{
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository(Conference::class)->find($confrence->getId());
         if (!$entity){

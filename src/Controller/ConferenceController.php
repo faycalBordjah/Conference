@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Conference;
+use App\Entity\User;
 use App\Form\ConferenceType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
@@ -90,11 +91,17 @@ class ConferenceController extends AbstractController
     }
 
     /**
-     * @Route(path="/admin/delete")
+     * @Route(path="/admin/delete/{id}",name="delete_conference")
      */
-    public function delete(){
-
-        return new Response("TEst");
+    public function delete(Request $request, Conference $confrence){
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository(Conference::class)->find($confrence->getId());
+        if (!$entity){
+            $this->createNotFoundException('Conference not found');
+        }
+        $em->remove($confrence);
+        $em->flush();
+        return $this->redirectToRoute('conference_index');
     }
 
 }

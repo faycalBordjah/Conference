@@ -62,7 +62,10 @@
                 <label>Due date</label><p>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : ''}}</p>
             </div>
             <div class="col-sm-6 bg-warning">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.
+                <div class="but">
+                    <button><a href="">Edit</a></button><br>
+                    <button><a href="{{ path('delete_conference',{'id' : conference.id}) }}">Delete</a></button>
+                </div>
             </div>
         </div>
         {% endfor %}

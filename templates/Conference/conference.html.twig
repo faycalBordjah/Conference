@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
-
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
 {% block title %}Conference{% endblock %}
 
 {% block body %}
@@ -17,7 +19,8 @@
             <thead>
             <tr class="table-primary">
                 <th scope="row">Title</th>
-                <th>Date de publication</th>
+                <th>Date de création</th>
+                <th>Date prévu</th>
                 <th>Détails</th>
             </tr>
             </thead>
@@ -26,6 +29,7 @@
                 <tr>
                     <td>{{ conference.title }}</td>
                     <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : ''  }}</td>
                     <td><a href="/get/{{conference.id}}">Note</a></td>
                 </tr>
             {% else %}

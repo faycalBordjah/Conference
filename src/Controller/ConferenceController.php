@@ -67,29 +67,12 @@ class ConferenceController extends AbstractController
     /**
      * @Route(path="/admin/create",name="create")
      */
-    public function create(){
-        /*
-         *     public function addArticle(Request $request): Response
-    {
-        $isOk = false;
-        $newArticleForm = $this->createForm(ArticleType::class);
-        $newArticleForm->handleRequest($request);
-        if ($newArticleForm->isSubmitted() && $newArticleForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($newArticleForm->getData());
-            $em->flush();
-            $isOk = true;
-        }
-        return $this->render('Article/add.html.twig', [
-            'isOk' => $isOk,
-            'articleForm' => $newArticleForm->createView(),
-            ]);
-    }
-         *
-         * */
-
-        $newCoForm = $this->createForm(ConferenceType::class);
+    public function create(Request $request) :Response{
+        $conf = new Conference();
+        $newCoForm = $this->createForm(ConferenceType::class,$conf);
+        $newCoForm->handleRequest($request);
         if ($newCoForm->isSubmitted() && $newCoForm->isValid()) {
+            $conf->setCreationDate(new \DateTime());
             $em = $this->getDoctrine()->getManager();
             $em->persist($newCoForm->getData());
             $em->flush();

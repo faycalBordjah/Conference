@@ -5,3 +5,16 @@
 .but{
     text-align: center;
 }
+.f{
+    color: white;
+    margin-right: 2em;
+    font-size: medium;
+}
+#search{
+     margin-left: 14em;
+ }
+
+.card_custom{
+    width: 40%;
+    margin: 0 auto;
+}

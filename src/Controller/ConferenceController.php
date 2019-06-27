@@ -25,6 +25,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class ConferenceController extends AbstractController
 {
     /**
+     *@Route(path="/about", name="about")
+     */
+    public function about(){
+        return $this->render('conference/about.html.twig');
+    }
+
+    /**
      * @Route(path="/find/{id}",name="conference")
      * @param int $id
      */

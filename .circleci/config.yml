@@ -15,3 +15,4 @@ jobs:
           name: Code Style
           command: vendor/bin/phpstan analyse --level 6 src
 
+

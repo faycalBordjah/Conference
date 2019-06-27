@@ -4,11 +4,11 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SignupType extends AbstractType
 {
@@ -18,7 +18,7 @@ class SignupType extends AbstractType
             ->add('firstName')
             ->add('lastName')
             ->add('mail')
-            ->add('plain',PasswordType::class,[
+            ->add('plain', PasswordType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
@@ -31,8 +31,7 @@ class SignupType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])
-         ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

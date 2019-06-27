@@ -33,7 +33,7 @@ class ConferenceAuthenticator extends AbstractFormLoginAuthenticator
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
-        $this->passwordEncoder=$passwordEncoder;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function supports(Request $request)

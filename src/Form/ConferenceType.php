@@ -16,12 +16,10 @@ class ConferenceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title',TextType::class,['label' => "Title"])
-            ->add('content',TextareaType::class,['label' => "Content"])
-            ->add('date',DateType::class,['format' => 'yyy-MM-dd'])
-            ->add('create',SubmitType::class,['label' => "Confirm"])
-
-        ;
+            ->add('title', TextType::class, ['label' => "Title"])
+            ->add('content', TextareaType::class, ['label' => "Content"])
+            ->add('date', DateType::class, ['format' => 'yyy-MM-dd'])
+            ->add('create', SubmitType::class, ['label' => "Confirm"]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

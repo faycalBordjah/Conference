@@ -25,12 +25,12 @@
             </tr>
             </thead>
             <tbody>
-            {% for conference in conferences%}
+            {% for conference in conferences %}
                 <tr>
                     <td>{{ conference.title }}</td>
                     <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : ''  }}</td>
-                    <td><a href="/get/{{conference.id}}">Note</a></td>
+                    <td>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : '' }}</td>
+                    <td><a href="/get/{{ conference.id }}">Note</a></td>
                 </tr>
             {% else %}
                 <tr>

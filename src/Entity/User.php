@@ -158,7 +158,7 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles() :array
+    public function getRoles(): array
     {
         return array_unique($this->roles);
     }
@@ -193,5 +193,4 @@ class User implements UserInterface
 
         return $this;
     }
-
 }

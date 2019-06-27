@@ -3,14 +3,10 @@
 
 namespace App\Controller;
 
-
 use App\Entity\User;
 use App\Form\SignupType;
-use App\Form\UserInscriptionType;
-use App\Security\UserAuthenticator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -22,12 +18,12 @@ class SignupController extends AbstractController
      * @return Response
      * @Route(path="/signup",name="signup_app")
      */
-    public function signUp(Request $request,UserPasswordEncoderInterface $encoder): Response
+    public function signUp(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
-        $isOk=false;
+        $isOk = false;
         /** @var User $user */
         $user = new User();
-        $newUserForm = $this->createForm(SignupType::class,$user);
+        $newUserForm = $this->createForm(SignupType::class, $user);
         $newUserForm->handleRequest($request);
         if ($newUserForm->isSubmitted() && $newUserForm->isValid()) {
             $user->setPassword(
@@ -42,12 +38,11 @@ class SignupController extends AbstractController
             $user->setCreationDate(new \DateTime());
             $em->persist($newUserForm->getData());
             $em->flush();
-            $isOk=true;
+            $isOk = true;
         }
         return $this->render('signup/signup.html.twig', [
             'userInscriptionForm' => $newUserForm->createView(),
             'isOk' => $isOk
         ]);
     }
-
 }

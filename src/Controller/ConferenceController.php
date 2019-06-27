@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Conference;
+use App\Form\ConferenceType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
@@ -87,10 +88,13 @@ class ConferenceController extends AbstractController
          *
          * */
 
-
-
-
-        return new Response("TEst");
+        $newCoForm = $this->createForm(ConferenceType::class);
+        if ($newCoForm->isSubmitted() && $newCoForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($newCoForm->getData());
+            $em->flush();
+        }
+        return $this->render('Conference/create.html.twig',['newCoForm'=>$newCoForm->createView()]);
     }
 
     /**

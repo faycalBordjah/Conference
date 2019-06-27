@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Conference
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -40,6 +41,11 @@ class Conference
      * @ORM\Column(type="datetime")
      */
     private $creationDate;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $place;
 
     public function getId(): ?int
     {
@@ -108,6 +114,18 @@ class Conference
     public function setCreationDate(\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getPlace(): ?string
+    {
+        return $this->place;
+    }
+
+    public function setPlace(string $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }

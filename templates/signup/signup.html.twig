@@ -6,13 +6,13 @@
             <div class="alert alert-dismissible alert-success">
                 <h2>L'utilisateur c'est bien enregistrer</h2>
             </div>
-        {%  endif %}
+        {% endif %}
         <br>
         <h2 style="text-align: center">Signup in Conference</h2>
         <div class="px-4 py-3">
             {{ form_start(userInscriptionForm) }}
             {{ form_row(userInscriptionForm.mail, {
-                'label': "FirstName",
+                'label': "mail",
                 'attr': {
                     class: "form-control"
                 }
@@ -24,7 +24,7 @@
                 }
             }) }}
             {{ form_row(userInscriptionForm.firstName, {
-                'label': "Email",
+                'label': "firstName",
                 'attr': {
                     class: "form-control"
                 }

@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
-
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
 {% block title %}Conference{% endblock %}
 
 {% block body %}
@@ -17,20 +19,22 @@
             <thead>
             <tr class="table-primary">
                 <th scope="row">Title</th>
-                <th>Date de publication</th>
+                <th>Date de création</th>
+                <th>Date prévu</th>
                 <th>Détails</th>
             </tr>
             </thead>
             <tbody>
-            {% for conference in conferences%}
+            {% for conference in conferences %}
                 <tr>
                     <td>{{ conference.title }}</td>
                     <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td><a href="/get/{{conference.id}}">Note</a></td>
+                    <td>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : '' }}</td>
+                    <td><a href="/get/{{ conference.id }}">Note</a></td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">No articles</td>
+                    <td colspan="5">No conferences</td>
                 </tr>
             {% endfor %}
 

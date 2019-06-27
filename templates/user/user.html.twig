@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3 details">
+                <label>firstName</label>
+                <p>{{ user.firstName }}</p>
+                <label>lastName</label>
+                <p>{{ user.lastName }}</p>
+                <label>mail</label>
+                <p>{{ user.mail }}</p>
+                <label>firstName</label>
+                <p>Lorem ipsum...</p>
+            </div>
+            <div class="col-9 bg-warning">
+                <p>Sed ut perspiciatis...</p>
+
+                <button>
+                    <a href="{{ path('user_delete', { 'id': user.id }) }}">
+                        Delete
+                    </a>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

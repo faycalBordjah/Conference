@@ -5,12 +5,13 @@
     <title>{% block title %}Conference{% endblock %}</title>
     {% block stylesheets %}
         <style>
-            a.f{
+            a.f {
                 color: white;
                 margin-right: 2em;
                 font-size: medium;
             }
-            div.inner-wrap{
+
+            div.inner-wrap {
                 alignment: center;
                 padding: 30px;
                 background: #F8F8F8;
@@ -21,7 +22,8 @@
         <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/pulse/bootstrap.min.css">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <a class="navbar-brand" href="{{ path("index") }}">CONFERENCE</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+                    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -50,11 +52,12 @@
     Add New Conference
 </h1>
 <hr>
-    <div align="center" class="inner-wrap">
-        {{ form_start(newCoForm) }}
-        {{ form_row(newCoForm.title) }}
-        {{ form_row(newCoForm.content) }}
-        {{ form_end(newCoForm) }}
-    </div>
+<div align="center" class="inner-wrap">
+    {{ form_start(newCoForm) }}<br>
+    {{ form_row(newCoForm.title) }}<br>
+    {{ form_row(newCoForm.content) }}<br>
+    {{ form_row(newCoForm.date) }}<br>
+    {{ form_end(newCoForm) }}
+</div>
 </body>
 </html>

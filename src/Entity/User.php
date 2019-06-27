@@ -54,6 +54,11 @@ class User implements UserInterface
      */
     private $plain;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,7 +158,7 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles() :array
+    public function getRoles(): array
     {
         return array_unique($this->roles);
     }
@@ -177,4 +182,15 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
 }

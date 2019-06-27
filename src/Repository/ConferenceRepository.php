@@ -46,7 +46,7 @@ class ConferenceRepository extends ServiceEntityRepository
 
 
     /*
-    public function findOneBySomeField($value): ?Conference
+    public function findOneBySomeField($value): ?conference
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

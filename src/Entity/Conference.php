@@ -42,6 +42,11 @@ class Conference
      */
     private $creationDate;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $place;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,6 +114,18 @@ class Conference
     public function setCreationDate(\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getPlace(): ?string
+    {
+        return $this->place;
+    }
+
+    public function setPlace(string $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }

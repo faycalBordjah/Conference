@@ -74,13 +74,13 @@ class ConferenceController extends AbstractController
         if (!$isAdmin){
             $conferences = $repository->queryForUser();
             $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 5);
-            return $this->render('conference/conference.html.twig', [
+            return $this->render('conference/user-conference.html.twig', [
                 'conferences' => $conferences
             ]);
         }else{
             $conferences = $repository->queryForAdmin();
             $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 10);
-            return $this->render('conference/admin.html.twig', [
+            return $this->render('conference/admin-conference.html.twig', [
                 'conferences' => $conferences
             ]);
         }
@@ -99,7 +99,7 @@ class ConferenceController extends AbstractController
             $em->persist($newCoForm->getData());
             $em->flush();
         }
-        return $this->render('conference/create.html.twig',['newCoForm'=>$newCoForm->createView()]);
+        return $this->render('conference/create-update.html.twig',['newCoForm'=>$newCoForm->createView()]);
     }
 
     /**
@@ -119,7 +119,7 @@ class ConferenceController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('view_conference',['id'=>$conference->getId()]);
         }
-        return $this->render('conference/create.html.twig',['newCoForm'=> $newCoForm->createView()]);
+        return $this->render('conference/create-update.html.twig',['newCoForm'=> $newCoForm->createView()]);
     }
 
     /**

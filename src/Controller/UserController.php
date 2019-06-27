@@ -26,7 +26,7 @@ class UserController extends AbstractController
         /**@var \App\Repository\UserRepository $repository*/
         $repository = $this->getDoctrine()->getRepository(User::class);
         $users = $repository->findAll();
-        return $this->render('User/users.html.twig',[
+        return $this->render('user/users.html.twig',[
             'users'=> $users
         ]);
     }
@@ -39,7 +39,7 @@ class UserController extends AbstractController
         /**@var \App\Repository\UserRepository $repository*/
         $repository = $this->getDoctrine()->getRepository(User::class);
         $user = $repository->find($user->getId());
-     return $this->render('User/user.html.twig',[
+     return $this->render('user/user.html.twig',[
             'user'=> $user
         ]);
     }
@@ -60,7 +60,7 @@ class UserController extends AbstractController
 
         if(!$entity)
         {
-            throw $this->createNotFoundException('User not found');
+            throw $this->createNotFoundException('user not found');
         }
             $em->remove($user);
             $em->flush();

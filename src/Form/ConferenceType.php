@@ -19,7 +19,7 @@ class ConferenceType extends AbstractType
             ->add('title',TextType::class,['label' => "Title"])
             ->add('content',TextareaType::class,['label' => "Content"])
             ->add('date',DateType::class,['format' => 'yyy-MM-dd'])
-            ->add('create',SubmitType::class,['label' => "New Conference"])
+            ->add('create',SubmitType::class,['label' => "Confirm"])
 
         ;
     }

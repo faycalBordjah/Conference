@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<h1 align="center">conference Created or Modified</h1>
+
+    <div class="container-fluid" align="center">
+        <div>
+            <div class="col-sm-6 details" align="center">
+                <label>Subject:</label><p>{{ conference.title }}</p>
+                <label>Details:</label><p>{{ conference.content }}</p>
+                <label>Due date</label><p>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : ''}}</p>
+            </div>
+        </div>
+        <hr>
+    <a href="{{ path('conference_index') }}">View All</a> -
+    <a href="{{ path('update_conference',{'id': conference.id}) }}">Edit</a>
+{% endblock %}

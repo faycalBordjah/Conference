@@ -25,15 +25,36 @@ use Symfony\Component\Routing\Annotation\Route;
 class ConferenceController extends AbstractController
 {
     /**
-     * @Route(path="/get/{id}")
+     * @Route(path="/find/{id}",name="conference")
      * @param int $id
      */
     public function find(int $id): Response
     {
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
-        $article = $repository->find($id);
-        return new Response("Test");
+        $conference = $repository->find($id);
+        return new Response($conference->getTitle());
+    }
+
+    /**
+     * @Route("/view-conference/{id}",name="view_conference")
+     */
+    public function viewAction(Conference $conference) :Response {
+    /** @var Conference $conference */
+        $conference = $this->getDoctrine()
+            ->getRepository(Conference::class)
+            ->find($conference->getId());
+
+        if (!$conference) {
+            throw $this->createNotFoundException(
+                'There are no articles with the following id: ' . $conference->getId()
+            );
+        }
+
+        return $this->render(
+            'conference/view.html.twig',
+            ['conference' => $conference]
+        );
     }
 
     /**
@@ -53,13 +74,13 @@ class ConferenceController extends AbstractController
         if (!$isAdmin){
             $conferences = $repository->queryForUser();
             $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 5);
-            return $this->render('Conference/conference.html.twig', [
+            return $this->render('conference/conference.html.twig', [
                 'conferences' => $conferences
             ]);
         }else{
             $conferences = $repository->queryForAdmin();
             $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 10);
-            return $this->render('Conference/admin.html.twig', [
+            return $this->render('conference/admin.html.twig', [
                 'conferences' => $conferences
             ]);
         }
@@ -78,16 +99,27 @@ class ConferenceController extends AbstractController
             $em->persist($newCoForm->getData());
             $em->flush();
         }
-        return $this->render('Conference/create.html.twig',['newCoForm'=>$newCoForm->createView()]);
+        return $this->render('conference/create.html.twig',['newCoForm'=>$newCoForm->createView()]);
     }
 
     /**
-     * @Route(path="/admin/update")
+     * @Route(path="/admin/update/{id}",name="update_conference")
      */
-    public function update(){
-
-
-        return new Response("TEst");
+    public function update(Request $request,Conference $conference){
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository(Conference::class)->find($conference->getId());
+        if (!$entity){
+            $this->createNotFoundException('Can not update conference not found');
+        }
+        $newCoForm = $this->createForm(ConferenceType::class,$entity);
+        $newCoForm->handleRequest($request);
+        if ($newCoForm->isSubmitted() && $newCoForm->isValid()){
+            /** @var Conference $conference */
+            $conference = $newCoForm->getData();
+            $em->flush();
+            return $this->redirectToRoute('view_conference',['id'=>$conference->getId()]);
+        }
+        return $this->render('conference/create.html.twig',['newCoForm'=> $newCoForm->createView()]);
     }
 
     /**
@@ -97,7 +129,7 @@ class ConferenceController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository(Conference::class)->find($confrence->getId());
         if (!$entity){
-            $this->createNotFoundException('Conference not found');
+            $this->createNotFoundException('can not delete conference not found');
         }
         $em->remove($confrence);
         $em->flush();

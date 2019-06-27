@@ -63,7 +63,7 @@
             </div>
             <div class="col-sm-6 bg-warning">
                 <div class="but">
-                    <button><a href="">Edit</a></button><br>
+                    <button><a href="{{ path('update_conference',{'id' : conference.id}) }}">Edit</a></button><br>
                     <button><a href="{{ path('delete_conference',{'id' : conference.id}) }}">Delete</a></button>
                 </div>
             </div>

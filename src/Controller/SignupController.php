@@ -44,7 +44,7 @@ class SignupController extends AbstractController
             $em->flush();
             $isOk=true;
         }
-        return $this->render('Signup/signup.html.twig', [
+        return $this->render('signup/signup.html.twig', [
             'userInscriptionForm' => $newUserForm->createView(),
             'isOk' => $isOk
         ]);

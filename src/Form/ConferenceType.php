@@ -20,7 +20,7 @@ class ConferenceType extends AbstractType
             ->add('content', TextareaType::class, ['label' => "Content"])
             ->add('date', DateType::class, ['format' => 'yyy-MM-dd'])
             ->add('create', SubmitType::class, ['label' => "Confirm"])
-            ->add('place',TextType::class,['label' => "place"]);
+            ->add('place', TextType::class, ['label' => "place"]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -7,7 +7,6 @@ use App\Entity\Conference;
 use App\Entity\User;
 use App\Form\ConferenceType;
 use App\Repository\ConferenceRepository;
-use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -112,6 +111,7 @@ class ConferenceController extends AbstractController
     {
 
         $em = $this->getDoctrine()->getManager();
+        /** @var User[] $users */
         $users = $em->getRepository(User::class)->findAll();
         $transport = (new \Swift_SmtpTransport('mailhog', 1025));
         $mailer = new \Swift_Mailer($transport);
@@ -122,8 +122,8 @@ class ConferenceController extends AbstractController
                 ->setBody(
                     "a new conference was added to the web site you should consult it, it can interest you. \n Regards"
                 );
+            $mailer->send($message);
         }
-        $mailer->send($message);
     }
 
     /**

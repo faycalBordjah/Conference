@@ -59,16 +59,20 @@ class SignupController extends AbstractController
         $transport = (new \Swift_SmtpTransport('mailhog', 1025));
         $mailer = new \Swift_Mailer($transport);
         $url = $this->generateUrl('token', ['token' => $user->getToken()]);
-        $renderTemplate = $this->render('conference/confirmation-view.html.twig',
+        $renderTemplate = $this->render(
+            'conference/confirmation-view.html.twig',
             ['user' => $user,
                 'token' => $user->getToken(),
-                'url' => $url]);
+            'url' => $url]
+        );
         $message = (new \Swift_Message('Confirmation Email'))
             ->setFrom('admin@local.com')
             ->setReplyTo('admin@local.com')
             ->setTo($user->getMail())
             ->setBody(
-                $renderTemplate, "text/html");
+                $renderTemplate,
+                "text/html"
+            );
         $mailer->send($message);
     }
 
@@ -108,5 +112,4 @@ class SignupController extends AbstractController
     {
         return $this->render('conference/wait-confirmation.html.twig');
     }
-
 }

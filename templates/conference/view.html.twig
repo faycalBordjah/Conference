@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <h1 align="center">conference Created or Modified</h1>
+    <h1 align="center" class="alert alert-dismissible alert-success">
+        The conference has been created succesfully <br> a mail was sended to memebers
+    </h1>
 
     <div class="container-fluid" align="center">
     <div>
@@ -14,6 +16,6 @@
         </div>
     </div>
     <hr>
-    <a href="{{ path('conference_index') }}">View All</a> -
+    <a href="{{ path('conference_index') }}">View All</a>
     <a href="{{ path('update_conference',{'id': conference.id}) }}">Edit</a>
 {% endblock %}

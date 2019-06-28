@@ -4,14 +4,14 @@
 namespace App\Controller;
 
 use App\Entity\Conference;
+use App\Entity\User;
 use App\Form\ConferenceType;
 use App\Repository\ConferenceRepository;
+use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -92,35 +92,38 @@ class ConferenceController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function create(Request $request): Response
+    public function create(Request $request, \Swift_Mailer $mailer): Response
     {
-        $conf = new Conference();
-        $newCoForm = $this->createForm(ConferenceType::class, $conf);
+        $conference = new Conference();
+        $newCoForm = $this->createForm(ConferenceType::class, $conference);
         $newCoForm->handleRequest($request);
         if ($newCoForm->isSubmitted() && $newCoForm->isValid()) {
-            $conf->setCreationDate(new \DateTime());
+            $conference->setCreationDate(new \DateTime());
             $em = $this->getDoctrine()->getManager();
             $em->persist($newCoForm->getData());
             $em->flush();
+            $this->sendMailForAll();
+            return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
         }
         return $this->render('conference/create-update.html.twig', ['newCoForm' => $newCoForm->createView()]);
     }
-    public function sendEmail(MailerInterface $mailer)
+
+    private function sendMailForAll()
     {
-        $email = (new Email())
-            ->from('hello@example.com')
-            ->to('you@example.com')
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject('Time for Symfony Mailer!')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
 
-        $mailer->send($email);
-
-        // ...
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository(User::class)->findAll();
+        $transport = (new \Swift_SmtpTransport('mailhog', 1025));
+        $mailer = new \Swift_Mailer($transport);
+        foreach ($users as $key => $user) {
+            $message = (new \Swift_Message('Hello Email'))
+                ->setFrom('admin@admin')
+                ->setTo($user->getMail())
+                ->setBody(
+                    "a new conference was added to the web site you should consult it, it can interest you. \n Regards"
+                );
+        }
+        $mailer->send($message);
     }
 
     /**
@@ -162,8 +165,8 @@ class ConferenceController extends AbstractController
         return $this->redirectToRoute('conference_index');
     }
 
-
-    public function topTen(Request $request) :Response{
+    public function topTen(Request $request): Response
+    {
         return $this->render('');
     }
 }

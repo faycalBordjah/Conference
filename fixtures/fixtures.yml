@@ -4,6 +4,9 @@ App\Entity\User:
     firstName: 'admin'
     lastName: 'admin'
     mail: 'admin@local.com'
+    creationDate: "<dateTime('now')>"
     password: '\$argon2i\$v=19\$m=1024,t=2,p=2\$bEEvU2t0TjA0MWh3REUxbA\$jekkq5lZdcxQmguBa4WQa7HJmJUcsQT8+b4XMpeONXI'
     roles: ['ROLE_ADMIN']
+    token: 'null'
+    certified: 'false'
 

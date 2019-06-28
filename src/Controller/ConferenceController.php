@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class ConferenceController
  * @package App\Controller
- * @Route(path="/")
+ * @Route(path="/admin")
  */
 class ConferenceController extends AbstractController
 {
@@ -60,7 +60,7 @@ class ConferenceController extends AbstractController
     /**
      * @param PaginatorInterface $paginator
      * @return Response
-     * @Route(path="/",name="conference_index")
+     * @Route(path="/index",name="conference_index")
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
@@ -87,7 +87,7 @@ class ConferenceController extends AbstractController
     }
 
     /**
-     * @Route(path="/admin/create",name="create")
+     * @Route(path="/create",name="create")
      * @param Request $request
      * @return Response
      */
@@ -127,7 +127,7 @@ class ConferenceController extends AbstractController
     }
 
     /**
-     * @Route(path="/admin/update/{id}",name="update_conference")
+     * @Route(path="/update/{id}",name="update_conference")
      * @param Conference $conference
      * @return Response
      */
@@ -149,7 +149,7 @@ class ConferenceController extends AbstractController
     }
 
     /**
-     * @Route(path="/admin/delete/{id}",name="delete_conference")
+     * @Route(path="/delete/{id}",name="delete_conference")
      * @param Conference $confrence
      * @param Request $request
      */

@@ -10,6 +10,8 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -103,6 +105,23 @@ class ConferenceController extends AbstractController
         }
         return $this->render('conference/create-update.html.twig', ['newCoForm' => $newCoForm->createView()]);
     }
+    public function sendEmail(MailerInterface $mailer)
+    {
+        $email = (new Email())
+            ->from('hello@example.com')
+            ->to('you@example.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Time for Symfony Mailer!')
+            ->text('Sending emails is fun again!')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        $mailer->send($email);
+
+        // ...
+    }
 
     /**
      * @Route(path="/admin/update/{id}",name="update_conference")
@@ -141,5 +160,10 @@ class ConferenceController extends AbstractController
         $em->remove($confrence);
         $em->flush();
         return $this->redirectToRoute('conference_index');
+    }
+
+
+    public function topTen(Request $request) :Response{
+        return $this->render('');
     }
 }

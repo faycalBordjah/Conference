@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1 align="center" class="alert alert-dismissible alert-success">
+        Hello {{ user.firstName }} Please click on this
+        <a href= "{{ url }}" > {{ url }} </a>
+    </h1>
+    <hr>
+    <a href="{{ path('conference_index') }}"> View All </a>
+{% endblock %}

@@ -15,6 +15,9 @@
  }
 
 .card_custom{
-    width: 40%;
+    width: 50%;
     margin: 0 auto;
+}
+body{
+    background-color: rgb(202, 211, 223);
 }

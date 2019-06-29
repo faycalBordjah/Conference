@@ -63,7 +63,8 @@ class SignupController extends AbstractController
             'conference/mail-confirm-registration.html.twig',
             ['user' => $user,
                 'token' => $user->getToken(),
-            ]);
+            ]
+        );
         $message = (new \Swift_Message('Confirmation Email'))
             ->setFrom('admin@local.com')
             ->setReplyTo('admin@local.com')

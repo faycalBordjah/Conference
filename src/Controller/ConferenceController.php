@@ -39,8 +39,8 @@ class ConferenceController extends AbstractController
             $user = $this->getUser();
             return $this->render('conference/user-conference.html.twig', [
                 'isAdmin' => $this->isAdmin(),
-                'user'=> $user,
-                'isUser'=> $isUser,
+                'user' => $user,
+                'isUser' => $isUser,
                 'conferences' => $conferences
             ]);
         } else {
@@ -56,12 +56,13 @@ class ConferenceController extends AbstractController
      * @return Response
      * @Route(path="/account/profile", name="profile")
      */
-    public function profile(){
+    public function profile()
+    {
         $user = $this->getUser();
         $isUser = $this->isUser();
         $isAdmin = $this->isAdmin();
         return $this->render('user/profile.html.twig', [
-            'isAdmin'=> $isAdmin,
+            'isAdmin' => $isAdmin,
             'isUser' => $isUser,
             'user' => $user
         ]);
@@ -70,7 +71,8 @@ class ConferenceController extends AbstractController
     /**
      * @return bool
      */
-    private function isAdmin() :bool {
+    private function isAdmin(): bool
+    {
         $isAdmin = false;
         if ($this->getUser()) {
             $isAdmin = in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true) ? true : false;
@@ -81,7 +83,8 @@ class ConferenceController extends AbstractController
     /**
      * @return bool
      */
-    private function isUser() :bool {
+    private function isUser(): bool
+    {
         $isUser = false;
         if ($this->getUser()) {
             $isUser = in_array('ROLE_USER', $this->getUser()->getRoles(), true) ? true : false;
@@ -94,9 +97,9 @@ class ConferenceController extends AbstractController
      */
     public function about()
     {
-            return $this->render('conference/about.html.twig',['isUser'=> $this->isUser(),
-                'isAdmin' => $this->isAdmin()]);
-     }
+        return $this->render('conference/about.html.twig', ['isUser' => $this->isUser(),
+            'isAdmin' => $this->isAdmin()]);
+    }
 
     /**
      * @Route(path="/account/find/{id}",name="conference")
@@ -146,7 +149,10 @@ class ConferenceController extends AbstractController
             $this->sendMailForAll();
             return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
         }
-        return $this->render('conference/create-update-conference.html.twig', ['newCoForm' => $newCoForm->createView()]);
+        return $this->render(
+            'conference/create-update-conference.html.twig',
+            ['newCoForm' => $newCoForm->createView()]
+        );
     }
 
     private function sendMailForAll()
@@ -187,7 +193,10 @@ class ConferenceController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
         }
-        return $this->render('conference/create-update-conference.html.twig', ['newCoForm' => $newCoForm->createView()]);
+        return $this->render(
+            'conference/create-update-conference.html.twig',
+            ['newCoForm' => $newCoForm->createView()]
+        );
     }
 
     /**
@@ -211,6 +220,7 @@ class ConferenceController extends AbstractController
     {
         return $this->render('');
     }
+
     /**
      * @Route(path="/admin/users/findAll",name="users")
      * @return Response
@@ -237,7 +247,7 @@ class ConferenceController extends AbstractController
         $isUser = $this->isUser();
         $isAdmin = $this->isAdmin();
         return $this->render('user/profile.html.twig', [
-            'isAdmin'=> $isAdmin,
+            'isAdmin' => $isAdmin,
             'isUser' => $isUser,
             'user' => $user
         ]);

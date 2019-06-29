@@ -32,7 +32,7 @@
             </div>
             {% if isUser == true %}
                 <a class="f" href="{{ path("logout_app") }}">Logout</a><br>
-                <a class="f" href="{{ path("profile") }}">Profile</a>
+                <a class="f" href="{{ path("profile") }}">Profile <b style="color: red">{{ user.firstName }}</b></a>
             {% else %}
                 <a class="f" href="{{ path("signup_app") }}">SignUp</a><br>
                 <a class="f" href="{{ path("app_login") }}">SignIn</a>

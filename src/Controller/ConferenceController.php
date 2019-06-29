@@ -36,7 +36,9 @@ class ConferenceController extends AbstractController
         if (!$this->isAdmin()) {
             $conferences = $repository->queryForUser();
             $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 5);
+            $user = $this->getUser();
             return $this->render('conference/user-conference.html.twig', [
+                'user'=> $user,
                 'isUser'=> $isUser,
                 'conferences' => $conferences
             ]);

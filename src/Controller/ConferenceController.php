@@ -56,7 +56,7 @@ class ConferenceController extends AbstractController
     public function profile(){
         $user = $this->getUser();
         $isUser = $this->isUser();
-        return $this->render('user/user.html.twig', [
+        return $this->render('user/profile.html.twig', [
             'isUser' => $isUser,
             'user' => $user
         ]);
@@ -117,7 +117,7 @@ class ConferenceController extends AbstractController
             ->getRepository(Conference::class)
             ->find($conference->getId());
         return $this->render(
-            'conference/view.html.twig',
+            'conference/success-create-conference.html.twig',
             ['conference' => $conference]
         );
     }
@@ -141,7 +141,7 @@ class ConferenceController extends AbstractController
             $this->sendMailForAll();
             return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
         }
-        return $this->render('conference/create-update.html.twig', ['newCoForm' => $newCoForm->createView()]);
+        return $this->render('conference/create-update-conference.html.twig', ['newCoForm' => $newCoForm->createView()]);
     }
 
     private function sendMailForAll()
@@ -182,7 +182,7 @@ class ConferenceController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
         }
-        return $this->render('conference/create-update.html.twig', ['newCoForm' => $newCoForm->createView()]);
+        return $this->render('conference/create-update-conference.html.twig', ['newCoForm' => $newCoForm->createView()]);
     }
 
     /**
@@ -229,7 +229,7 @@ class ConferenceController extends AbstractController
         /**@var \App\Repository\UserRepository $repository */
         $repository = $this->getDoctrine()->getRepository(User::class);
         $user = $repository->find($user->getId());
-        return $this->render('user/user.html.twig', [
+        return $this->render('user/profile.html.twig', [
             'user' => $user
         ]);
     }

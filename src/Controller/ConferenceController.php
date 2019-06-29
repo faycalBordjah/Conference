@@ -17,46 +17,10 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Class ConferenceController
  * @package App\Controller
- * @Route(path="/admin")
+ * @Route(path="/")
  */
 class ConferenceController extends AbstractController
 {
-    /**
-     * @Route(path="/about", name="about")
-     */
-    public function about()
-    {
-        return $this->render('conference/about.html.twig');
-    }
-
-    /**
-     * @Route(path="/find/{id}",name="conference")
-     * @param int $id
-     * @return Response
-     */
-    public function find(int $id): Response
-    {
-        /** @var ConferenceRepository $repository */
-        $repository = $this->getDoctrine()->getRepository(Conference::class);
-        $conference = $repository->find($id);
-        return new Response($conference->getTitle());
-    }
-
-    /**
-     * @Route("/view-conference/{id}",name="view_conference")
-     * @param Conference $conference
-     * @return Response
-     */
-    public function viewAction(Conference $conference): Response
-    {
-        $conference = $this->getDoctrine()
-            ->getRepository(Conference::class)
-            ->find($conference->getId());
-        return $this->render(
-            'conference/view.html.twig',
-            ['conference' => $conference]
-        );
-    }
 
     /**
      * @param PaginatorInterface $paginator
@@ -66,13 +30,9 @@ class ConferenceController extends AbstractController
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
 
-        $isAdmin = false;
-        if ($this->getUser()) {
-            $isAdmin = in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true) ? true : false;
-        }
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
-        if (!$isAdmin) {
+        if (!$this->isAdmin()) {
             $conferences = $repository->queryForUser();
             $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 5);
             return $this->render('conference/user-conference.html.twig', [
@@ -88,7 +48,71 @@ class ConferenceController extends AbstractController
     }
 
     /**
-     * @Route(path="/create",name="create")
+     * @return Response
+     * @Route(path="/account/profile", name="profile")
+     */
+    public function profile(){
+        $user = $this->getUser();
+        return $this->render('user/user.html.twig', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @return bool
+     */
+    private function isAdmin() :bool {
+        $isAdmin = false;
+        if ($this->getUser()) {
+            $isAdmin = in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true) ? true : false;
+        }
+        return $isAdmin;
+    }
+
+    /**
+     * @Route(path="/about", name="about")
+     */
+    public function about()
+    {
+        $isAdmin = $this->isAdmin();
+        if ($isAdmin){
+            return $this->render('conference/about.html.twig');
+        }
+        return $this->render('conference/anon-about.html.twig');
+    }
+
+    /**
+     * @Route(path="/admin/find/{id}",name="conference")
+     * @param int $id
+     * @return Response
+     */
+    public function find(int $id): Response
+    {
+        /** @var ConferenceRepository $repository */
+        $repository = $this->getDoctrine()->getRepository(Conference::class);
+        $conference = $repository->find($id);
+        return new Response($conference->getTitle());
+    }
+
+    /**
+     * @Route("view-conference/{id}",name="view_conference")
+     * @param Conference $conference
+     * @return Response
+     */
+    public function viewAction(Conference $conference): Response
+    {
+        $conference = $this->getDoctrine()
+            ->getRepository(Conference::class)
+            ->find($conference->getId());
+        return $this->render(
+            'conference/view.html.twig',
+            ['conference' => $conference]
+        );
+    }
+
+
+    /**
+     * @Route(path="/admin/create",name="create")
      * @param Request $request
      * @return Response
      */
@@ -128,7 +152,7 @@ class ConferenceController extends AbstractController
     }
 
     /**
-     * @Route(path="/update/{id}",name="update_conference")
+     * @Route(path="/admin/update/{id}",name="update_conference")
      * @param Conference $conference
      * @return Response
      */
@@ -150,7 +174,7 @@ class ConferenceController extends AbstractController
     }
 
     /**
-     * @Route(path="/delete/{id}",name="delete_conference")
+     * @Route(path="/admin/delete/{id}",name="delete_conference")
      * @param Conference $confrence
      * @param Request $request
      */
@@ -171,7 +195,7 @@ class ConferenceController extends AbstractController
         return $this->render('');
     }
     /**
-     * @Route(path="/users/findAll",name="users")
+     * @Route(path="/admin/users/findAll",name="users")
      * @return Response
      */
     public function findAllUsers()
@@ -185,7 +209,7 @@ class ConferenceController extends AbstractController
     }
 
     /**
-     * @Route(path="/users/find/{id}",name="user")
+     * @Route(path="/admin/users/find/{id}",name="user")
      * @return Response
      */
     public function findUser(User $user): Response
@@ -201,7 +225,7 @@ class ConferenceController extends AbstractController
     /**
      * @param User $user
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route(path="/users/delete/{id}",name="user_delete")
+     * @Route(path="/admin/users/delete/{id}",name="user_delete")
      */
     public function deleteUser(Request $request, User $user): Response
     {

@@ -1,27 +1,66 @@
-{% extends 'base.html.twig' %}
-{% block head %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-{% endblock %}
-{% block title %}Conference{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Conference{% endblock %}</title>
+    {% block stylesheets %}
+        <style>
+            a.f {
+                color: white;
+                margin-right: 2em;
+                font-size: medium;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/pulse/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="{{ path("index") }}">CONFERENCE</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+                    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('about') }}">About</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0" id="search">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+            {% if isUser == true %}
+                <a class="f" href="{{ path("logout_app") }}">Logout</a><br>
+                <a class="f" href="{{ path("profile") }}">Profile <b style="color: red">{{ user.firstName }}</b></a>
+            {% elseif isAdmin %}
+                <a class="f" href="{{ path("logout_app") }}">Logout</a><br>
+                <a class="f" href="{{ path("create") }}">New Conference</a>
+            {% else %}
+                <a class="f" href="{{ path("signup_app") }}">SignUp</a><br>
+                <a class="f" href="{{ path("app_login") }}">SignIn</a>
+            {% endif %}
+        </nav>
+    {% endblock %}
+</head>
 {% block body %}
-
-    <div class="container">
-        <div style="text-align:center; margin-top:1.25rem;">
-            <h1>Conference!</h1>
-            <hr>
-            <br>
-            <h2>list conferences</h2>
-        </div>
+    <div style="text-align:center; margin-top:1.25rem;">
+        <hr>
+        <br>
+        <h2>List of conferences</h2>
     </div>
+    <hr>
     <div class="container-fluid">
         <table class="table">
             <thead>
             <tr class="table-primary">
-                <th scope="row">Title</th>
-                <th>Date de création</th>
-                <th>Date prévu</th>
-                <th>Détails</th>
+                <th>Title</th>
+                <th>Published on</th>
+                <th>Expected Date</th>
+                <th>Place</th>
+                <th>Vote</th>
+                <th>Details</th>
+
             </tr>
             </thead>
             <tbody>
@@ -30,7 +69,9 @@
                     <td>{{ conference.title }}</td>
                     <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : '' }}</td>
-                    <td><a href="/get/{{ conference.id }}">Note</a></td>
+                    <td>{{ conference.place }}</td>
+                    <td>vote</td>
+                    <td><a href="{{ path('conference',{'id':conference.id}) }}">details</a></td>
                 </tr>
             {% else %}
                 <tr>

@@ -17,14 +17,14 @@
 
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#" style="">Home <span class="sr-only">(current)</span></a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/">Conference</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Top Confereces</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('users') }}">Users</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('about') }}">About</a>
@@ -40,9 +40,9 @@
         </nav>
     {% endblock %}
 </head>
-<div class="container">
+<div>
     <div align="center">
-        <h2>Above a list of published conferences</h2>
+        <h2>Published conferences</h2>
         <br>
     </div>
 </div>

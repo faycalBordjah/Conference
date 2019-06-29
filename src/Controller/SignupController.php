@@ -48,7 +48,7 @@ class SignupController extends AbstractController
             $isOk = true;
         }
 
-        return $this->render('signup/signup.html.twig', [
+        return $this->render('signup/registration.html.twig', [
             'userInscriptionForm' => $newUserForm->createView(),
             'isOk' => $isOk
         ]);
@@ -60,10 +60,10 @@ class SignupController extends AbstractController
         $mailer = new \Swift_Mailer($transport);
         $url = $this->generateUrl('token', ['token' => $user->getToken()]);
         $renderTemplate = $this->render(
-            'conference/confirmation-view.html.twig',
+            'conference/mail-confirm-registration.html.twig',
             ['user' => $user,
                 'token' => $user->getToken(),
-            'url' => $url]
+            ]
         );
         $message = (new \Swift_Message('Confirmation Email'))
             ->setFrom('admin@local.com')

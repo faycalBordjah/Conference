@@ -3,7 +3,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Conference;
 use App\Entity\User;
+use App\Form\ConferenceType;
+use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,57 +16,29 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Class UserController
  * @package App\Controller
- * @Route(path="/admin/users")
+ * @Route(path="/account")
  */
 class UserController extends AbstractController
 {
     /**
-     * @Route(path="/findAll",name="users")
-     * @return Response
-     */
-    public function findAll()
-    {
-        /**@var \App\Repository\UserRepository $repository */
-        $repository = $this->getDoctrine()->getRepository(User::class);
-        $users = $repository->findAll();
-        return $this->render('user/users.html.twig', [
-            'users' => $users
-        ]);
-    }
-
-    /**
-     * @Route(path="/find/{id}",name="user")
-     * @return Response
-     */
-    public function find(User $user): Response
-    {
-        /**@var \App\Repository\UserRepository $repository */
-        $repository = $this->getDoctrine()->getRepository(User::class);
-        $user = $repository->find($user->getId());
-        return $this->render('user/user.html.twig', [
-            'user' => $user
-        ]);
-    }
-
-    /**
+     * @Route(path="/update/{id}",name="update_user")
      * @param User $user
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @Route(path="/delete/{id}",name="user_delete")
+     * @return Response
      */
-    public function delete(Request $request, User $user): Response
+    public function update(Request $request, User $user)
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository(User::class)->find($user->getId());
-        $roles = $user->getRoles();
-        if (in_array('ROLE_ADMIN', $roles)) {
-            throw new AccessDeniedException('Can not delete the administrator');
-        }
-
         if (!$entity) {
-            throw $this->createNotFoundException('user not found');
+            $this->createNotFoundException('Can not update user not found');
         }
-        $em->remove($user);
-        $em->flush();
-        return $this->redirectToRoute('users');
+        $form = $this->createForm(UserType::class, $entity);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $em->flush();
+            return $this->redirectToRoute('profile', ['id' => $user->getId()]);
+        }
+        return $this->render('user/edit-profile.html.twig', ['form' => $form->createView()]);
     }
 }

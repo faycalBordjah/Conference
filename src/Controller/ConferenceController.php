@@ -38,6 +38,7 @@ class ConferenceController extends AbstractController
             $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 5);
             $user = $this->getUser();
             return $this->render('conference/user-conference.html.twig', [
+                'isAdmin' => $this->isAdmin(),
                 'user'=> $user,
                 'isUser'=> $isUser,
                 'conferences' => $conferences
@@ -58,7 +59,9 @@ class ConferenceController extends AbstractController
     public function profile(){
         $user = $this->getUser();
         $isUser = $this->isUser();
+        $isAdmin = $this->isAdmin();
         return $this->render('user/profile.html.twig', [
+            'isAdmin'=> $isAdmin,
             'isUser' => $isUser,
             'user' => $user
         ]);
@@ -232,7 +235,9 @@ class ConferenceController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(User::class);
         $user = $repository->find($user->getId());
         $isUser = $this->isUser();
+        $isAdmin = $this->isAdmin();
         return $this->render('user/profile.html.twig', [
+            'isAdmin'=> $isAdmin,
             'isUser' => $isUser,
             'user' => $user
         ]);

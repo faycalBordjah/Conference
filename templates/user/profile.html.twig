@@ -1,5 +1,12 @@
 {% extends 'conference/user-conference.html.twig' %}
 {% block body %}
+    {% if isAdmin %}
+    <div class="container">
+            <h3>Welcome to manage user interface</h3>
+            <h4>You can only delete the user</h4>
+    </div>
+    {% endif %}
+    <hr>
     <div class="profile">
     <div id="user-profile-2" class="user-profile">
         <div class="tabbable">
@@ -21,12 +28,13 @@
 							</span>
 
                             <div class="space space-4"></div>
-
+                            {% if isUser == true %}
                             <a href="{{ path('update_user', { 'id': user.id }) }}" class="btn btn-sm btn-block btn-success">
                                 <i class="ace-icon fa fa-plus-circle bigger-120"></i>
                                 <span class="bigger-110">Edit profile</span>
                             </a>
-                            {% if isUser == false %}
+                            {% endif %}
+                            {% if isAdmin == true %}
                             <a href="{{ path('user_delete', { 'id': user.id }) }}" class="btn btn-sm btn-block btn-primary">
                                 <i class="ace-icon fa fa-envelope-o bigger-110"></i>
                                 <span class="bigger-110">Delete</span>
@@ -36,7 +44,7 @@
 
                         <div class="col-xs-12 col-sm-9">
                             <h4 class="blue">
-                                <span class="middle">John Doe</span>
+                                <span class="middle">{{ user.lastName }} {{ user.firstName }}</span>
 
                                 <span class="label label-purple arrowed-in-right">
 									<i class="ace-icon fa fa-circle smaller-80 align-middle"></i>

@@ -35,8 +35,16 @@
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
-            <a class="f" href="{{ path("logout_app") }}">Logout</a><br>
-            <a class="f" href="{{ path("create") }}">New Conference</a>
+            {% if isUser == true %}
+                <a class="f" href="{{ path("logout_app") }}">Logout</a><br>
+                <a class="f" href="{{ path("profile") }}">Profile</a>
+            {% elseif isAdmin%}
+                <a class="f" href="{{ path("logout_app") }}">Logout</a><br>
+                <a class="f" href="{{ path("create") }}">New Conference</a>
+                {% else %}
+                <a class="f" href="{{ path("signup_app") }}">SignUp</a><br>
+                <a class="f" href="{{ path("app_login") }}">SignIn</a>
+            {% endif %}
         </nav>
     {% endblock %}
 </head>

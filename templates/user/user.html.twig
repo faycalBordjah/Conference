@@ -14,12 +14,15 @@
             </div>
             <div class="col-9 bg-warning">
                 <p>Sed ut perspiciatis...</p>
-
-                <button>
-                    <a href="{{ path('user_delete', { 'id': user.id }) }}">
-                        Delete
-                    </a>
-                </button>
+                {% if isUser == false %}
+                    <button>
+                        <a href="{{ path('user_delete', { 'id': user.id }) }}">
+                            Delete
+                        </a>
+                    </button>
+                {% else %}
+                    <p>avatar</p>
+                {% endif %}
             </div>
         </div>
     </div>

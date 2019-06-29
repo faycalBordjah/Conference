@@ -21,44 +21,42 @@
 
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#" style="">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('about') }}">About</a>
                     </li>
                 </ul>
-                <!-- <form class="form-inline my-2 my-lg-0">
+                <form class="form-inline my-2 my-lg-0" id="search">
                      <input class="form-control mr-sm-2" type="text" placeholder="Search">
                      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                 </form> -->
+                 </form>
             </div>
-            <a class="f" href="{{ path("logout_app") }}">Logout</a><br>
-            <a class="f" href="{{ path("profile") }}">Profile</a>
+            {% if isUser == true %}
+                <a class="f" href="{{ path("logout_app") }}">Logout</a><br>
+                <a class="f" href="{{ path("profile") }}">Profile</a>
+            {% else %}
+                <a class="f" href="{{ path("signup_app") }}">SignUp</a><br>
+                <a class="f" href="{{ path("app_login") }}">SignIn</a>
+            {% endif %}
         </nav>
     {% endblock %}
 </head>
 {% block body %}
-       <div style="text-align:center; margin-top:1.25rem;">
-            <hr>
-            <br>
-            <h2>List of conferences</h2>
-        </div>
+    <div style="text-align:center; margin-top:1.25rem;">
+        <hr>
+        <br>
+        <h2>List of conferences</h2>
+    </div>
     <hr>
     <div class="container-fluid">
         <table class="table">
             <thead>
             <tr class="table-primary">
-                <th scope="row">Title</th>
-                <th>Date de création</th>
-                <th>Date prévu</th>
-                <th>Détails</th>
+                <th>Title</th>
+                <th>Published on</th>
+                <th>Expected Date</th>
+                <th>Place</th>
+                <th>Details</th>
+
             </tr>
             </thead>
             <tbody>
@@ -67,7 +65,8 @@
                     <td>{{ conference.title }}</td>
                     <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : '' }}</td>
-                    <td><a href="/get/{{ conference.id }}">Note</a></td>
+                    <td>{{ conference.place }}</td>
+                    <td><a href="{{ path('conference',{'id':conference.id}) }}">details</a></td>
                 </tr>
             {% else %}
                 <tr>

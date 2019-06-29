@@ -32,10 +32,12 @@ class ConferenceController extends AbstractController
 
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
+        $isUser = $this->isUser();
         if (!$this->isAdmin()) {
             $conferences = $repository->queryForUser();
             $conferences = $paginator->paginate($conferences, $request->query->getInt('page', 1), 5);
             return $this->render('conference/user-conference.html.twig', [
+                'isUser'=> $isUser,
                 'conferences' => $conferences
             ]);
         } else {
@@ -53,7 +55,9 @@ class ConferenceController extends AbstractController
      */
     public function profile(){
         $user = $this->getUser();
+        $isUser = $this->isUser();
         return $this->render('user/user.html.twig', [
+            'isUser' => $isUser,
             'user' => $user
         ]);
     }
@@ -70,19 +74,27 @@ class ConferenceController extends AbstractController
     }
 
     /**
+     * @return bool
+     */
+    private function isUser() :bool {
+        $isUser = false;
+        if ($this->getUser()) {
+            $isUser = in_array('ROLE_USER', $this->getUser()->getRoles(), true) ? true : false;
+        }
+        return $isUser;
+    }
+
+    /**
      * @Route(path="/about", name="about")
      */
     public function about()
     {
-        $isAdmin = $this->isAdmin();
-        if ($isAdmin){
-            return $this->render('conference/about.html.twig');
-        }
-        return $this->render('conference/anon-about.html.twig');
-    }
+            return $this->render('conference/about.html.twig',['isUser'=> $this->isUser(),
+                'isAdmin' => $this->isAdmin()]);
+     }
 
     /**
-     * @Route(path="/admin/find/{id}",name="conference")
+     * @Route(path="/account/find/{id}",name="conference")
      * @param int $id
      * @return Response
      */
@@ -91,7 +103,7 @@ class ConferenceController extends AbstractController
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
         $conference = $repository->find($id);
-        return new Response($conference->getTitle());
+        return $this->render('base.html.twig');
     }
 
     /**

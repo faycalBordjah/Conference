@@ -229,7 +229,9 @@ class ConferenceController extends AbstractController
         /**@var \App\Repository\UserRepository $repository */
         $repository = $this->getDoctrine()->getRepository(User::class);
         $user = $repository->find($user->getId());
+        $isUser = $this->isUser();
         return $this->render('user/profile.html.twig', [
+            'isUser' => $isUser,
             'user' => $user
         ]);
     }

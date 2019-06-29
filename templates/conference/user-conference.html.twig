@@ -58,6 +58,7 @@
                 <th>Published on</th>
                 <th>Expected Date</th>
                 <th>Place</th>
+                <th>Vote</th>
                 <th>Details</th>
 
             </tr>
@@ -69,6 +70,7 @@
                     <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ conference.place }}</td>
+                    <td>vote</td>
                     <td><a href="{{ path('conference',{'id':conference.id}) }}">details</a></td>
                 </tr>
             {% else %}

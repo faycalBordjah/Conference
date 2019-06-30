@@ -134,8 +134,8 @@ class User implements UserInterface
 
         // set (or unset) the owning side of the relation if necessary
         $newUser = $rate === null ? null : $this;
-        if ($newUser !== $rate->getUser()) {
-            $rate->setUser($newUser);
+        if ($newUser !== $rate->getUserId()) {
+            $rate->setUserId($newUser);
         }
 
         return $this;

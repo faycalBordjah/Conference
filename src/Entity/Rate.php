@@ -22,14 +22,19 @@ class Rate
     private $conference;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="rate", cascade={"persist", "remove"})
+     *@ORM\Column(type="integer")
      */
-    private $user;
+    private $user_id;
 
     /**
      * @ORM\Column(type="integer")
      */
     private $value;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
 
     public function getId(): ?int
     {
@@ -48,14 +53,14 @@ class Rate
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUserId(): ?int
     {
-        return $this->user;
+        return $this->user_id;
     }
 
-    public function setUser(?User $user): self
+    public function setUserId(?int $user_id): self
     {
-        $this->user = $user;
+        $this->user_id = $user_id;
 
         return $this;
     }
@@ -68,6 +73,18 @@ class Rate
     public function setValue(int $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
 
         return $this;
     }

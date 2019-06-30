@@ -150,11 +150,15 @@ class ConferenceController extends AbstractController
             $em->persist($newCoForm->getData());
             $em->flush();
             $this->sendMailForAll();
-            return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
+            return $this->render('conference/success-create-conference.html.twig',
+                ['conference'=> $conference,
+                'isAdmin' => $this->isAdmin()]);
+
         }
         return $this->render(
             'conference/create-update-conference.html.twig',
-            ['newCoForm' => $newCoForm->createView()]
+            ['newCoForm' => $newCoForm->createView(),
+                'isAdmin' => $this->isAdmin()]
         );
     }
 
@@ -194,11 +198,14 @@ class ConferenceController extends AbstractController
         if ($newCoForm->isSubmitted() && $newCoForm->isValid()) {
             $conference = $newCoForm->getData();
             $em->flush();
-            return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
+            return $this->render('conference/success-create-conference.html.twig',
+                ['conference'=> $conference,
+                    'isAdmin' => $this->isAdmin()]);
         }
         return $this->render(
             'conference/create-update-conference.html.twig',
-            ['newCoForm' => $newCoForm->createView()]
+            ['newCoForm' => $newCoForm->createView(),
+                'isAdmin' => $this->isAdmin()]
         );
     }
 

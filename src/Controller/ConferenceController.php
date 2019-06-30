@@ -281,19 +281,39 @@ class ConferenceController extends AbstractController
 
     /**
      * @param Request $request
-     * @param Conference $conference
      * @return Response
-     * @Route(path="/search/{title}")
+     * @Route(path="/search",name="search")
      */
-    public function search(Request $request,Conference $conference)
+    public function search(Request $request)
     {
-        return $this->render('conference/user-conference.html.twig',
-            [
-                'isUser' => $this->isUser(),
-                'user' => $this->getUser(),
-                'conference' => $conference,
-                'isAdmin' => $this->isAdmin()
-            ]
+        /** @var  ConferenceRepository $repo */
+        $repo = $this->getDoctrine()->getManager()->getRepository(Conference::class);
+        $conferences = [];
+        $search = $request->request->get('search');
+        if ($search == null) {
+            return $this->redirectToRoute('conference_index');
+        } else {
+            /** @var Conference [] $results */
+            $results = $repo->searchByTitle($search);
+            foreach ($results as $datasearch) {
+                $conference = $repo->find($datasearch->getId());
+                $conferences [] = array(
+                    'id' => $conference->getId(),
+                    'title' => $conference->getTitle(),
+                    'content' => $conference->getContent(),
+                    'creationDate' => $conference->getCreationDate(),
+                'date' => $conference->getDate(),
+                    'place'=> $conference->getPlace());
+            }
+            return $this->render('conference/user-conference.html.twig',
+                [
+                    'isUser' => $this->isUser(),
+                    'user' => $this->getUser(),
+                    'conferences' => $conferences,
+                    'isAdmin' => $this->isAdmin()
+                ]
             );
+        }
+
     }
 }

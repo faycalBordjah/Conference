@@ -40,8 +40,8 @@
                         <a class="nav-link" href="{{ path('about') }}">About</a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0" id="search">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                <form method="post" action="{{ path('search') }}" class="form-inline my-2 my-lg-0" id="search" >
+                    <input id="search" name="search" class="form-control mr-sm-2" type="text" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>

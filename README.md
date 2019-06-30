@@ -15,11 +15,7 @@ make start
 >NB: make sure you are in the good directory :) 
 
 
-
-
 #How to use:  
-
-###Home
 
 1- adress to home page 
 ```text
@@ -47,6 +43,8 @@ To test the app please create a users by Signin in this following adress
  http://localhost:8082/signup
 
 And follow the indications to be registred
+
+Also you need to create sconferences to see the result and the pagination
 
 ```
 

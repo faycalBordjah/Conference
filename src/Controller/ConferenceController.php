@@ -150,10 +150,11 @@ class ConferenceController extends AbstractController
             $em->persist($newCoForm->getData());
             $em->flush();
             $this->sendMailForAll();
-            return $this->render('conference/success-create-conference.html.twig',
+            return $this->render(
+                'conference/success-create-conference.html.twig',
                 ['conference'=> $conference,
-                'isAdmin' => $this->isAdmin()]);
-
+                'isAdmin' => $this->isAdmin()]
+            );
         }
         return $this->render(
             'conference/create-update-conference.html.twig',
@@ -198,9 +199,11 @@ class ConferenceController extends AbstractController
         if ($newCoForm->isSubmitted() && $newCoForm->isValid()) {
             $conference = $newCoForm->getData();
             $em->flush();
-            return $this->render('conference/success-create-conference.html.twig',
+            return $this->render(
+                'conference/success-create-conference.html.twig',
                 ['conference'=> $conference,
-                    'isAdmin' => $this->isAdmin()]);
+                'isAdmin' => $this->isAdmin()]
+            );
         }
         return $this->render(
             'conference/create-update-conference.html.twig',
@@ -312,7 +315,8 @@ class ConferenceController extends AbstractController
                 'date' => $conference->getDate(),
                     'place'=> $conference->getPlace());
             }
-            return $this->render('conference/user-conference.html.twig',
+            return $this->render(
+                'conference/user-conference.html.twig',
                 [
                     'isUser' => $this->isUser(),
                     'user' => $this->getUser(),
@@ -321,6 +325,5 @@ class ConferenceController extends AbstractController
                 ]
             );
         }
-
     }
 }

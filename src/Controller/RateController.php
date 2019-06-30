@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Conference;
 use App\Entity\Rate;
 use App\Entity\User;
@@ -19,9 +18,10 @@ class RateController extends AbstractController
      * @Route(path="/rate/{id}",name="rate_show")
      * @return Response
      */
-    public function show(Rate $rate) :Response{
+    public function show(Rate $rate) :Response
+    {
 
-        return $this->render('rate/show.html.twig',[
+        return $this->render('rate/show.html.twig', [
             'rate'=>$rate
         ]);
     }
@@ -37,8 +37,8 @@ class RateController extends AbstractController
     public function create(Conference $conference, User $user)
     {
         $rate = new Rate();
-        $form = $this->createForm(RateType::class,$rate);
-        if ($form->isSubmitted() && $form->isValid()){
+        $form = $this->createForm(RateType::class, $rate);
+        if ($form->isSubmitted() && $form->isValid()) {
             $rate->setUserId($user->getId());
             $rate->setConference($conference);
             $rate->setCreationDate(new \DateTime());
@@ -48,5 +48,4 @@ class RateController extends AbstractController
         }
         return new Response('test');//$this->render();
     }
-
 }

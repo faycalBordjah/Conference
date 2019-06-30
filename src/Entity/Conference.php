@@ -123,7 +123,7 @@ class Conference
     }
 
     /**
-     * @return Collection|rate[]
+     * @return Collection|Rate[]
      */
     public function getRates(): Collection
     {

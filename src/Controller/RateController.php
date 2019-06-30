@@ -32,7 +32,7 @@ class RateController extends AbstractController
      * @param User $user
      * @return Response
      * @throws \Exception
-     * @Route(path="/account/vote/{slug}",name="vote")
+     * @Route(path="/account/vote/{conference}/{user}",name="vote")
      */
     public function create(Conference $conference, User $user)
     {

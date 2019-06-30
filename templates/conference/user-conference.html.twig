@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Conference{% endblock %}</title>
@@ -9,6 +11,8 @@
                 font-size: medium;
             }
         </style>
+        <script src="https://kit.fontawesome.com/ec73f164d2.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/pulse/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
@@ -59,8 +63,6 @@
                 <th>Expected Date</th>
                 <th>Place</th>
                 <th>Vote</th>
-                <th>Details</th>
-
             </tr>
             </thead>
             <tbody>
@@ -70,8 +72,19 @@
                     <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ conference.place }}</td>
-                    <td>vote</td>
-                    <td><a href="{{ path('conference',{'id':conference.id}) }}">details</a></td>
+                    <td>
+                        <div class="rating">
+                            <div class="stars">
+                                <i class="fa fa-star fa-xs one"></i>
+                                <i class="fa fa-star fa-xs two"></i>
+                                <i class="fa fa-star fa-xs three"></i>
+                                <i class="fa fa-star fa-xs four"></i>
+                                <i class="fa fa-star fa-xs five"></i>
+                            </div>
+                            <a href="{{ path('conference',{'id':conference.id}) }}">details</a>
+                        </div>
+
+                    </td>
                 </tr>
             {% else %}
                 <tr>
@@ -92,3 +105,4 @@
         </div>
     </div>
 {% endblock %}
+</html>

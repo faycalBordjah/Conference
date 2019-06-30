@@ -41,17 +41,12 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Rate", mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $rate;
-
-    /**
      * @ORM\Column(type="array")
      */
     private $roles = [];
 
     /**
-     * @var string The plain passord to be encoded)
+     * @var string The plain password to be encoded)
      */
     private $plain;
 
@@ -119,24 +114,6 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getRate(): ?Rate
-    {
-        return $this->rate;
-    }
-
-    public function setRate(?Rate $rate): self
-    {
-        $this->rate = $rate;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newUser = $rate === null ? null : $this;
-        if ($newUser !== $rate->getUserId()) {
-            $rate->setUserId($newUser);
-        }
 
         return $this;
     }

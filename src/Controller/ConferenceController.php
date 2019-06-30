@@ -111,7 +111,7 @@ class ConferenceController extends AbstractController
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
         $conference = $repository->find($id);
-        return $this->redirectToRoute('view_conference',['id' => $conference->getId()]);
+        return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
     }
 
     /**
@@ -276,5 +276,24 @@ class ConferenceController extends AbstractController
         $em->remove($user);
         $em->flush();
         return $this->redirectToRoute('users');
+    }
+
+
+    /**
+     * @param Request $request
+     * @param Conference $conference
+     * @return Response
+     * @Route(path="/search/{title}")
+     */
+    public function search(Request $request,Conference $conference)
+    {
+        return $this->render('conference/user-conference.html.twig',
+            [
+                'isUser' => $this->isUser(),
+                'user' => $this->getUser(),
+                'conference' => $conference,
+                'isAdmin' => $this->isAdmin()
+            ]
+            );
     }
 }

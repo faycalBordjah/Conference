@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,9 +35,9 @@ class Conference
     private $date;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Rate", mappedBy="conference", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Rate", mappedBy="conference" , orphanRemoval=true)
      */
-    private $rate;
+    private $rates;
 
     /**
      * @ORM\Column(type="datetime")
@@ -46,6 +48,14 @@ class Conference
      * @ORM\Column(type="string", length=255)
      */
     private $place;
+
+    /**
+     * Conference constructor.
+     */
+    public function __construct()
+    {
+        $this->rates = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -88,24 +98,6 @@ class Conference
         return $this;
     }
 
-    public function getRate(): ?Rate
-    {
-        return $this->rate;
-    }
-
-    public function setRate(?Rate $rate): self
-    {
-        $this->rate = $rate;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newConference = $rate === null ? null : $this;
-        if ($newConference !== $rate->getConference()) {
-            $rate->setConference($newConference);
-        }
-
-        return $this;
-    }
-
     public function getCreationDate(): ?\DateTimeInterface
     {
         return $this->creationDate;
@@ -126,6 +118,27 @@ class Conference
     public function setPlace(string $place): self
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rate[]
+     */
+    public function getRates(): Collection
+    {
+        return $this->rates;
+    }
+
+    /**
+     * @param Rate $rate
+     * @return Conference
+     */
+    public function setRate(Rate $rate): self
+    {
+        if (!$this->rates->contains($rate)) {
+            $this->rates[] = $rate;
+        }
 
         return $this;
     }

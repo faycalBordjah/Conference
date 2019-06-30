@@ -111,7 +111,7 @@ class ConferenceController extends AbstractController
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
         $conference = $repository->find($id);
-        return $this->render('base.html.twig');
+        return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
     }
 
     /**
@@ -125,8 +125,11 @@ class ConferenceController extends AbstractController
             ->getRepository(Conference::class)
             ->find($conference->getId());
         return $this->render(
-            'conference/success-create-conference.html.twig',
-            ['conference' => $conference]
+            'conference/conference-view.html.twig',
+            ['isUser' => $this->isUser(),
+                'user' => $this->getUser(),
+                'conference' => $conference,
+                'isAdmin' => $this->isAdmin()]
         );
     }
 
@@ -147,11 +150,16 @@ class ConferenceController extends AbstractController
             $em->persist($newCoForm->getData());
             $em->flush();
             $this->sendMailForAll();
-            return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
+            return $this->render(
+                'conference/success-create-conference.html.twig',
+                ['conference'=> $conference,
+                'isAdmin' => $this->isAdmin()]
+            );
         }
         return $this->render(
             'conference/create-update-conference.html.twig',
-            ['newCoForm' => $newCoForm->createView()]
+            ['newCoForm' => $newCoForm->createView(),
+                'isAdmin' => $this->isAdmin()]
         );
     }
 
@@ -191,11 +199,16 @@ class ConferenceController extends AbstractController
         if ($newCoForm->isSubmitted() && $newCoForm->isValid()) {
             $conference = $newCoForm->getData();
             $em->flush();
-            return $this->redirectToRoute('view_conference', ['id' => $conference->getId()]);
+            return $this->render(
+                'conference/success-create-conference.html.twig',
+                ['conference'=> $conference,
+                'isAdmin' => $this->isAdmin()]
+            );
         }
         return $this->render(
             'conference/create-update-conference.html.twig',
-            ['newCoForm' => $newCoForm->createView()]
+            ['newCoForm' => $newCoForm->createView(),
+                'isAdmin' => $this->isAdmin()]
         );
     }
 
@@ -273,5 +286,44 @@ class ConferenceController extends AbstractController
         $em->remove($user);
         $em->flush();
         return $this->redirectToRoute('users');
+    }
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route(path="/search",name="search")
+     */
+    public function search(Request $request)
+    {
+        /** @var  ConferenceRepository $repo */
+        $repo = $this->getDoctrine()->getManager()->getRepository(Conference::class);
+        $conferences = [];
+        $search = $request->request->get('search');
+        if ($search == null) {
+            return $this->redirectToRoute('conference_index');
+        } else {
+            /** @var Conference [] $results */
+            $results = $repo->searchByTitle($search);
+            foreach ($results as $datasearch) {
+                $conference = $repo->find($datasearch->getId());
+                $conferences [] = array(
+                    'id' => $conference->getId(),
+                    'title' => $conference->getTitle(),
+                    'content' => $conference->getContent(),
+                    'creationDate' => $conference->getCreationDate(),
+                'date' => $conference->getDate(),
+                    'place'=> $conference->getPlace());
+            }
+            return $this->render(
+                'conference/user-conference.html.twig',
+                [
+                    'isUser' => $this->isUser(),
+                    'user' => $this->getUser(),
+                    'conferences' => $conferences,
+                    'isAdmin' => $this->isAdmin()
+                ]
+            );
+        }
     }
 }

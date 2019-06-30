@@ -44,16 +44,17 @@ class ConferenceRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
-
-    /*
-    public function findOneBySomeField($value): ?conference
+    /**
+     * @param string|null $title
+     * @return Conference returns the result of searching by title of conference
+     */
+    public function searchByTitle(?string $title)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('c.title LIKE  :val')
+            ->setParameter('val', '%'.$title.'%')
+            ->orderBy('c.id', 'DESC')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

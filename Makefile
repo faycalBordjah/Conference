@@ -29,11 +29,21 @@ help:
 		| sed 's/\(##\)/\t/' \
 		| expand -t14
 
-.PHONY: tests-fix ## Fix le cs de mon app
+.PHONY: start ## Start the project (Install in first place)
+start:
+	$(FIG) pull || true
+	$(FIG) build
+	$(FIG) up -d
+	$(FIG) exec -u 1000:1000 app composer install
+	$(EXEC) $(CONSOLE) doctrine:database:create --if-not-exists
+	$(EXEC) $(CONSOLE) doctrine:schema:update --force
+	$(EXEC) $(CONSOLE) hautelook:fixtures:load -q
+
+.PHONY: tests-fix ## fix code style erros
 tests-fix:
 	$(EXEC) vendor/bin/phpcbf src
 
-.PHONY: tests ## Lance les tests de l'applications
+.PHONY: tests ## launch tests
 tests:
 	$(EXEC) vendor/bin/phpcs src
 	$(EXEC) vendor/bin/phpstan analyse --level 6 src

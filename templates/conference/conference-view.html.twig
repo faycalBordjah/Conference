@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Conference{% endblock %}</title>
@@ -20,7 +18,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">Conference</a>
                     </li>
-                    {% if isAdmin%}
+                    {% if isAdmin %}
                     <li class="nav-item">
                         <a class="nav-link" href="#">Top Confereces</a>
                     </li>
@@ -39,29 +37,30 @@
             </div>
             {% if isUser == true %}
                 <a class="f" href="{{ path("logout_app") }}">Logout</a><br>
-                <a class="f" href="{{ path("profile") }}">Profile</a>
-            {% elseif isAdmin%}
+                <a class="f" href="{{ path("profile") }}">Profile <b style="color: red">{{ user.firstName }}</b></a>
+            {% elseif isAdmin %}
                 <a class="f" href="{{ path("logout_app") }}">Logout</a><br>
                 <a class="f" href="{{ path("create") }}">New Conference</a>
-                {% else %}
+            {% else %}
                 <a class="f" href="{{ path("signup_app") }}">SignUp</a><br>
                 <a class="f" href="{{ path("app_login") }}">SignIn</a>
             {% endif %}
         </nav>
     {% endblock %}
 </head>
-    <h1>
-        About
-    </h1>
-<div class="jumbotron">
-    <h1 class="display-3">Conference!,  what is it ?</h1>
-    <p class="lead">The main point of this site web is to allow people to vote for a conference (event) which is created by the administrator.</p>
-    <hr class="my-4">
-    <p>            After period of time the administrator will see the most voted event and will sent notification for each users to tell
-        him which event was chosen.</p>
-    <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </p>
-</div>
-</html>
-
+{% block body %}
+    <div class="container-fluid" align="center">
+    <div>
+        <div class="col-sm-6 details" align="center">
+            <label>Subject:</label>
+            <p>{{ conference.title }}</p>
+            <label>Details:</label>
+            <p>{{ conference.content }}</p>
+            <label>Due date</label>
+            <p>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : '' }}</p>
+        </div>
+    </div>
+    <hr>
+    <a href="{{ path('conference_index') }}">View All</a>
+    <a href="{{ path('update_conference',{'id': conference.id}) }}">Edit</a>
+{% endblock %}

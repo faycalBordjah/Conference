@@ -111,7 +111,7 @@ class ConferenceController extends AbstractController
         /** @var ConferenceRepository $repository */
         $repository = $this->getDoctrine()->getRepository(Conference::class);
         $conference = $repository->find($id);
-        return $this->render('base.html.twig');
+        return $this->redirectToRoute('view_conference',['id' => $conference->getId()]);
     }
 
     /**
@@ -125,8 +125,11 @@ class ConferenceController extends AbstractController
             ->getRepository(Conference::class)
             ->find($conference->getId());
         return $this->render(
-            'conference/success-create-conference.html.twig',
-            ['conference' => $conference]
+            'conference/conference-view.html.twig',
+            ['isUser' => $this->isUser(),
+                'user' => $this->getUser(),
+                'conference' => $conference,
+                'isAdmin' => $this->isAdmin()]
         );
     }
 

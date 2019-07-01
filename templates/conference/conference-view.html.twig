@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Conference{% endblock %}</title>
@@ -19,12 +21,12 @@
                         <a class="nav-link" href="/">Conference</a>
                     </li>
                     {% if isAdmin %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Top Confereces</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('users') }}">Users</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Top Confereces</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('users') }}">Users</a>
+                        </li>
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('about') }}">About</a>
@@ -49,7 +51,7 @@
     {% endblock %}
 </head>
 {% block body %}
-    <div class="container-fluid" align="center">
+<div class="container-fluid" align="center">
     <div>
         <div class="col-sm-6 details" align="center">
             <label>Subject:</label>
@@ -63,4 +65,6 @@
     <hr>
     <a href="{{ path('conference_index') }}">View All</a>
     <a href="{{ path('update_conference',{'id': conference.id}) }}">Edit</a>
-{% endblock %}
+    {% endblock %}
+</div>
+</html>

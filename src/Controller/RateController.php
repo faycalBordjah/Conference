@@ -7,8 +7,10 @@ use App\Entity\Conference;
 use App\Entity\Rate;
 use App\Entity\User;
 use App\Form\RateType;
+use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,26 +28,42 @@ class RateController extends AbstractController
         ]);
     }
 
+    private function getNote(string $sNote)
+    {
+        $values          = [
+            'one'        => 1,
+            'two'        => 2,
+            'three'      => 3,
+            'four'       => 4,
+            'five'       => 5,
+        ];
+        return $values[strtolower($sNote)];
+    }
 
     /**
-     * @param Conference $conference
-     * @param User $user
+     * @param Request $request
      * @return Response
      * @throws \Exception
-     * @Route(path="/account/vote/{conference}/{user}",name="vote")
+     * @Route(path="/account/vote",name="vote")
      */
-    public function create(Conference $conference, User $user)
+    public function create(Request $request)
     {
+        $note = $request->request->get('note');
+        $conf_id = $request->request->get('conf_id');
+
+        /** @var Conference $conference */
+        $conference = $this->getDoctrine()->getRepository(Conference::class)->find($conf_id);
         $rate = new Rate();
-        $form = $this->createForm(RateType::class, $rate);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $rate->setUserId($user->getId());
-            $rate->setConference($conference);
-            $rate->setCreationDate(new \DateTime());
-            $em = $this->getDoctrine()->getManager(User::class);
-            $em->persist($form->getData());
-            $em->flush();
-        }
-        return new Response('test');//$this->render();
+        $rate->setConference($conference);
+        $rate->setValue($this->getNote($note));
+        $rate->setCreationDate(new \DateTime());
+        /** @var User $user */
+        $user = $this->getUser();
+        $rate->setUserId($user->getId());
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($rate);
+        $em->flush();
+        return $this->redirectToRoute('conference_index');
     }
 }

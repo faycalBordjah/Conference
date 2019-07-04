@@ -58,62 +58,89 @@
         </nav>
     {% endblock %}
 </head>
-{% block body %}
-    <div style="text-align:center; margin-top:1.25rem;">
-        <hr>
-        <br>
-        <h2>List of conferences</h2>
-    </div>
+<body>
+<div style="text-align:center; margin-top:1.25rem;">
     <hr>
-    <div class="container-fluid">
-        <table class="table">
-            <thead>
-            <tr class="table-primary">
-                <th>Title</th>
-                <th>Published on</th>
-                <th>Expected Date</th>
-                <th>Place</th>
-                <th>Vote</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for conference in conferences %}
-                <tr>
-                    <td>{{ conference.title }}</td>
-                    <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ conference.place }}</td>
-                    <td>
-                        <div class="rating">
-                            <div class="stars">
-                                <i class="fa fa-star fa-xs one"></i>
-                                <i class="fa fa-star fa-xs two"></i>
-                                <i class="fa fa-star fa-xs three"></i>
-                                <i class="fa fa-star fa-xs four"></i>
-                                <i class="fa fa-star fa-xs five"></i>
-                            </div>
-                            <a href="{{ path('conference',{'id':conference.id}) }}">details</a>
-                        </div>
+    <br>
+    <h2>List of conferences</h2>
+</div>
+<hr>
+<script>
+    $(function () {
+        let notif = "<div class=\"alert alert-success\" role=\"alert\">\n" +
+            "  This is a success alert—check it out!\n" +
+            "</div>"
 
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5">No conferences</td>
-                </tr>
-            {% endfor %}
+        $(".fa-star").on('click',function () {
+            let firstTd     = $( this ).parents("tr").find("td:first-child");
+            let conf       = firstTd.find("#idconf").val();
 
-            </tbody>
-        </table>
-        <div class="row justify-content-md-center">
-            <ul class="pagination">
-                {% for i in 1..6 %}
-                    <li class="page-item active">
-                        <a class="page-link" href="{{ path('index', {page: i}) }}">{{ i }}</a>
-                    </li>&nbsp;
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-{% endblock %}
+            $('.notif').html(notif);
+            $.ajax({
+                method: "POST",
+                url: "{{ path('vote') }}",
+                dataType : 'html',
+                data: {
+                    note: this.classList[3],
+                    conf_id: conf
+                },
+                function(data,status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                }
+            });
+        })
+    });
+</script>
+<table class="table">
+    <thead>
+    <tr class="table-primary">
+        <th>id</th>
+        <th>Title</th>
+        <th>Published on</th>
+        <th>Expected Date</th>
+        <th>Place</th>
+        <th>Vote</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for conference in conferences %}
+        <tr>
+            <td>
+                <input type="hidden" value="{{ conference.id }}" id="idconf" >
+            </td>
+            <td>{{ conference.title }}</td>
+            <td>{{ conference.creationDate ? conference.creationDate|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ conference.date ? conference.date|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ conference.place }}</td>
+            <td>
+                <div class="rating">
+                    <div class="stars">
+                        <i class="fa fa-star fa-xs one"></i>
+                        <i class="fa fa-star fa-xs two"></i>
+                        <i class="fa fa-star fa-xs three"></i>
+                        <i class="fa fa-star fa-xs four"></i>
+                        <i class="fa fa-star fa-xs five"></i>
+                    </div>
+                    <a href="{{ path('conference',{'id':conference.id}) }}">details</a>
+                </div>
+
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">No conferences</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="row justify-content-md-center">
+    <ul class="pagination">
+        {% for i in 1..6 %}
+            <li class="page-item active">
+                <a class="page-link" href="{{ path('index', {page: i}) }}">{{ i }}</a>
+            </li>&nbsp;
+        {% endfor %}
+    </ul>
+</div>
+</body>
 </html>

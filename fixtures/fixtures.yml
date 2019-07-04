@@ -10,3 +10,13 @@ App\Entity\User:
     token: 'null'
     certified: 'false'
 
+  user-{1..10}:
+    __construct: false
+    firstName: '<name()>'
+    lastName: '<name()>'
+    mail: '<email()>'
+    creationDate: "<dateTime('now')>"
+    password: '\$argon2i\$v=19\$m=1024,t=2,p=2\$Y0N2bTdqUU9CQXUwd2poTw\$GR3HVbnM6IAFuDXotgY+0/yyY8A9zjQ0WLQMRyK60h4'
+    roles: ['ROLE_USER']
+    certified: 'false'
+
